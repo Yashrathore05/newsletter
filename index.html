@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe to Newsletter - IMMERSIVE X</title>
+    <meta name="description" content="Stay updated with the latest blog posts and news about AR and VR innovations from Immersive X.">
+    <meta name="keywords" content="AR, VR, innovations, blog, technology, India">
+    <link rel="icon" href="images/cropped_image.png" type="image/x-icon">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .subscribe-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            padding: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+            flex-wrap: wrap;
+        }
+        .subscribe-content {
+            flex: 2;
+            padding-right: 20px;
+        }
+        .subscribe-content h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .subscribe-content p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .subscribe-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .subscribe-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        .subscribe-form input {
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .subscribe-form input:focus {
+            border-color: #333;
+        }
+        .subscribe-form button {
+            border: none;
+            border-radius: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .subscribe-form button:hover {
+            background-color: #555;
+        }
+        #thank-you-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            display: none;
+        }
+        #thank-you-popup .popup-content {
+            font-size: 16px;
+        }
+        @media (max-width: 768px) {
+            .subscribe-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .subscribe-content {
+                padding-right: 0;
+            }
+            .subscribe-form {
+                width: 100%;
+            }
+            .subscribe-form input,
+            .subscribe-form button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="subscribe-container">
+        <div class="subscribe-content">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Stay updated with the latest blog posts and news about AR and VR innovations.</p>
+        </div>
+        <div class="subscribe-form">
+            <form id="subscribe-form" action="subscribe.php" method="POST">
+                <input type="text" name="name" placeholder="Enter Your Name" required>
+                <input type="email" name="email" placeholder="Your Email Address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <div id="thank-you-popup">
+                <div class="popup-content">
+                    <h2>Thank You for Subscribing!</h2>
+                    <p>You have successfully subscribed to our newsletter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.getElementById('subscribe-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            fetch('subscribe.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var popup = document.getElementById('thank-you-popup');
+                    popup.style.display = 'block';
+                    setTimeout(function() {
+                        popup.style.display = 'none';
+                        document.getElementById('subscribe-form').reset();
+                    }, 5000);
+                } else {
+                    alert('There was an error: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
